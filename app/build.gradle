@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.amap.sctxdriverdemo"
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            // 设置Bugly支持的SO库架构
+            abiFilters 'armeabi'  //, 'x86'//, 'armeabi-v7a', 'x86_64', 'arm64-v8a', 'mips', 'mips64'
+        }
+    }
+    buildTypes {
+//        preview {
+//            matchingFallbacks = ['release', 'debug']
+//        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    signingConfigs {
+        debug {
+            //keystore中key的别名
+            keyAlias 'sctx'
+            //keystore中key的密码
+            keyPassword 'sctx888'
+            //keystore的文件路径，可以是绝对路径也可以是相对路径
+            storeFile file('sctx_keystore')
+            //keystore的密码
+            storePassword 'sctx888'
+        }
+        //
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation('android.library:dida-map:2.2.7-SNAPSHOT') { changing = true }
+
+}
